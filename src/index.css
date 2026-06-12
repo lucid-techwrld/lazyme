@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #fdf2f8;
+}
+
+/*
+  In-app splash screen while React hydrates.
+  #root:empty matches the div BEFORE React renders into it.
+  Once React injects content, :empty stops matching → splash disappears instantly.
+  No JS needed, no white flash.
+*/
+#root:empty::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(155deg, #fdf2f8 0%, #fce7f3 50%, #ede9fe 100%);
+  z-index: 9999;
+}
+
+#root:empty::after {
+  content: 'LazyMe 🛋️';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Lilita One', cursive;
+  font-size: clamp(2.5rem, 10vw, 4rem);
+  color: #ec4899;
+  text-shadow: 3px 3px 0px #f9a8d4;
+  z-index: 9999;
+  white-space: nowrap;
+  animation: splash-pop 0.45s ease-out both;
+}
+
+@keyframes splash-pop {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.75); }
+  65%  { transform: translate(-50%, -50%) scale(1.06); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@layer utilities {
+  .text-shadow-pink { text-shadow: 3px 3px 0px #f9a8d4; }
+  .font-display     { font-family: 'Lilita One', cursive; }
+}
